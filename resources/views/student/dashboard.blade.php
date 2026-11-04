@@ -32,12 +32,7 @@
             </div>
         </div>
 
-        <div class="stats">
-            <div class="stat" style="--tone:var(--yellow)"><i></i><strong>{{ $counts['menunggu'] }}</strong><small>Menunggu dicek</small></div>
-            <div class="stat" style="--tone:var(--blue)"><i></i><strong>{{ $counts['diproses'] }}</strong><small>Sedang diproses</small></div>
-            <div class="stat" style="--tone:var(--mint)"><i></i><strong>{{ $counts['selesai'] }}</strong><small>Sudah selesai</small></div>
-            <div class="stat" style="--tone:var(--coral)"><i></i><strong>{{ $counts['ditolak'] }}</strong><small>Ditolak</small></div>
-        </div>
+        @include('partials.status-summary', ['counts' => $counts, 'route' => 'reports.history'])
 
         <div class="reports-head">
             <h3>Laporan terbaru</h3>
@@ -51,7 +46,7 @@
                     </b>
                     <span class="tag" title="{{ $report->category->name ?? '-' }}">{{ $report->category->name ?? '-' }}</span>
                     <span class="muted" title="{{ $report->location->name ?? '-' }}">{{ $report->location->name ?? '-' }}</span>
-                    <span class="status">{{ ucfirst($report->status) }}</span>
+                    <span class="status status-{{ $report->status }}">{{ ucfirst($report->status) }}</span>
                 </div>
             @empty
                 <div class="report">

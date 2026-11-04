@@ -40,6 +40,14 @@ class Report extends Model
             ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status));
     }
 
+    /** Jumlah laporan per status; status tanpa laporan tetap muncul dengan nilai 0. */
+    public static function countsByStatus(Builder $query): \Illuminate\Support\Collection
+    {
+        $totals = $query->selectRaw('status, count(*) as total')->groupBy('status')->pluck('total', 'status');
+
+        return collect(self::STATUSES)->mapWithKeys(fn ($status) => [$status => (int) $totals->get($status, 0)]);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -13,27 +13,17 @@ class DashboardController extends Controller
 
         return view('student.dashboard', [
             'recentReports' => (clone $own)->with(['category', 'location'])->latest()->take(5)->get(),
-            'counts' => $this->countByStatus($own),
+            'counts' => Report::countsByStatus(Report::where('user_id', $request->user()->id)),
         ]);
     }
 
     public function admin()
     {
-        $counts = $this->countByStatus(Report::query());
+        $counts = Report::countsByStatus(Report::query());
 
         return view('admin.dashboard', [
             'recentReports' => Report::with(['category', 'location', 'user'])->latest()->take(10)->get(),
-            'total' => $counts->sum(),
-            'perluDicek' => $counts['menunggu'],
-            'selesaiCount' => $counts['selesai'],
+            'counts' => $counts,
         ]);
-    }
-
-    /** Jumlah laporan per status; status tanpa laporan tetap muncul dengan nilai 0. */
-    private function countByStatus($query)
-    {
-        $totals = $query->selectRaw('status, count(*) as total')->groupBy('status')->pluck('total', 'status');
-
-        return collect(Report::STATUSES)->mapWithKeys(fn ($status) => [$status => (int) $totals->get($status, 0)]);
     }
 }

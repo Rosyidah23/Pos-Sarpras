@@ -51,7 +51,7 @@
 
         <div class="verify-list">
             @forelse ($reports as $report)
-                <div class="verify-card">
+                <div class="verify-card" id="laporan-{{ $report->id }}">
                     <div class="verify-info">
                         @if ($report->photo_path)
                             <button type="button" class="verify-photo-btn photo-zoom" data-full="{{ asset('storage/'.$report->photo_path) }}">
@@ -65,7 +65,7 @@
                             <div class="verify-tags">
                                 <span class="tag">{{ $report->category->name ?? '-' }}</span>
                                 <span class="muted">📍 {{ $report->location->name ?? '-' }}</span>
-                                <span class="status">{{ ucfirst($report->status) }}</span>
+                                <span class="status status-{{ $report->status }}">{{ ucfirst($report->status) }}</span>
                             </div>
                             @if ($report->follow_up_note)
                                 <p class="verify-note">Catatan: {{ $report->follow_up_note }}</p>

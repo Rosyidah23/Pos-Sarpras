@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ReportController extends Controller
 {
@@ -46,8 +47,15 @@ class ReportController extends Controller
             ->paginate(15)
             ->withQueryString();
 
+        // Hitungan per status mengikuti filter tanggal, tapi tidak filter status, supaya semua tab tetap punya angka.
+        $counts = Report::countsByStatus(
+            Report::where('user_id', $request->user()->id)->filtered(Arr::only($filters, ['from', 'to']))
+        );
+
         return view('student.history', [
             'reports' => $reports,
+            'counts' => $counts,
+            'statusFilter' => $filters['status'] ?? null,
             'from' => $filters['from'] ?? null,
             'to' => $filters['to'] ?? null,
         ]);

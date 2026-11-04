@@ -18,6 +18,8 @@
             <p class="alert-error">{{ $errors->first() }}</p>
         @endif
 
+        @include('partials.status-summary', ['counts' => $counts, 'route' => 'reports.history', 'params' => array_filter(['from' => $from, 'to' => $to]), 'active' => $statusFilter])
+
         <form method="GET" action="{{ route('reports.history') }}" class="date-filter">
             <div class="field">
                 <label for="from">Dari tanggal</label>
@@ -27,13 +29,22 @@
                 <label for="to">Sampai tanggal</label>
                 <input id="to" type="date" name="to" value="{{ $to }}">
             </div>
+            @if ($statusFilter)
+                <input type="hidden" name="status" value="{{ $statusFilter }}">
+            @endif
             <button class="btn primary" type="submit">Tampilkan</button>
             @if ($from || $to)
-                <a class="btn soft" href="{{ route('reports.history') }}">Reset</a>
+                <a class="btn soft" href="{{ route('reports.history', array_filter(['status' => $statusFilter])) }}">Reset</a>
             @endif
         </form>
+        <div class="filter-bar">
+            <a class="chip {{ !$statusFilter ? 'chip-active' : '' }}" href="{{ route('reports.history', array_filter(['from' => $from, 'to' => $to])) }}">Semua ({{ $counts->sum() }})</a>
+            @foreach (\App\Models\Report::STATUSES as $s)
+                <a class="chip {{ $statusFilter === $s ? 'chip-active' : '' }}" href="{{ route('reports.history', array_filter(['from' => $from, 'to' => $to, 'status' => $s])) }}">{{ ucfirst($s) }} ({{ $counts[$s] }})</a>
+            @endforeach
+        </div>
         <p class="filter-hint">
-            @if ($from || $to)
+            @if ($from || $to || $statusFilter)
                 {{ $reports->total() }} laporan ditemukan. Kosongkan salah satu tanggal untuk menampilkan tanpa batas awal atau akhir.
             @else
                 Menampilkan semua laporan. Isi tanggal untuk melihat riwayat pada periode tertentu.
@@ -56,7 +67,7 @@
                     </b>
                     <span class="tag" title="{{ $report->category->name ?? '-' }}">{{ $report->category->name ?? '-' }}</span>
                     <span class="muted" title="{{ $report->location->name ?? '-' }}">{{ $report->location->name ?? '-' }}</span>
-                    <span class="status">{{ ucfirst($report->status) }}</span>
+                    <span class="status status-{{ $report->status }}">{{ ucfirst($report->status) }}</span>
                 </div>
             @empty
                 <div class="report report-empty">
