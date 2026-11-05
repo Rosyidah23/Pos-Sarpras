@@ -16,7 +16,7 @@
             <div>
                 <p class="eyebrow">MASTER DATA</p>
                 <h1>Kategori kerusakan.</h1>
-                <p>Kategori ini muncul sebagai pilihan di form laporan siswa.</p>
+                <p>Kategori ini muncul sebagai pilihan di form laporan (siswa &amp; guru).</p>
             </div>
         </header>
 

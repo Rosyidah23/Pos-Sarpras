@@ -16,7 +16,7 @@
             <div>
                 <p class="eyebrow">MASTER DATA</p>
                 <h1>Lokasi / ruangan.</h1>
-                <p>Daftar ruangan sesuai denah sekolah. Tambahkan kalau ada ruangan yang belum masuk daftar.</p>
+                <p>Daftar ruangan sesuai denah sekolah (termasuk ruang guru, WKS, TU, dan aula) supaya siswa &amp; guru bisa memilihnya saat melapor. Tambahkan kalau ada ruangan yang belum masuk daftar.</p>
             </div>
             <a class="btn soft" href="{{ route('map') }}">Lihat denah asli →</a>
         </header>

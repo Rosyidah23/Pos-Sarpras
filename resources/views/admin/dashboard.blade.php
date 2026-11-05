@@ -32,7 +32,7 @@
                 </a>
             @empty
                 <div class="report">
-                    <b>Belum ada laporan masuk.<small>Laporan dari siswa akan muncul di sini.</small></b>
+                    <b>Belum ada laporan masuk.<small>Laporan dari siswa &amp; guru akan muncul di sini.</small></b>
                 </div>
             @endforelse
         </div>

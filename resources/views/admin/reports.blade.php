@@ -86,7 +86,7 @@
                 </div>
             @empty
                 <div class="report">
-                    <b>{{ $from || $to || $statusFilter ? 'Tidak ada laporan yang cocok dengan filter.' : 'Belum ada laporan.' }}<small>Laporan dari siswa akan muncul di sini.</small></b>
+                    <b>{{ $from || $to || $statusFilter ? 'Tidak ada laporan yang cocok dengan filter.' : 'Belum ada laporan.' }}<small>Laporan dari siswa &amp; guru akan muncul di sini.</small></b>
                 </div>
             @endforelse
         </div>

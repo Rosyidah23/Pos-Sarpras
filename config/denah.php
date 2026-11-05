@@ -2,7 +2,8 @@
 
 // Titik-titik ruangan pada gambar denah (public/images/denah-smkn5.png), dalam
 // persen posisi & ukuran relatif terhadap gambar. Dipakai di halaman "Denah asli"
-// supaya siswa bisa klik langsung ruangannya lalu lanjut ke form laporan.
+// supaya siswa & guru bisa klik langsung ruangannya lalu lanjut ke form laporan.
+// Setiap nama di sini harus ada juga di tabel locations (lihat LocationSeeder).
 //
 // Kalau gambar denah diganti/di-update, koordinat di bawah ini perlu disesuaikan
 // ulang (posisinya dalam persen dari lebar & tinggi gambar aslinya).
@@ -88,8 +89,8 @@ return [
         ['name' => 'Rg 1.01', 'left' => 29.54, 'top' => 76.89, 'width' => 6.48, 'height' => 3.72],
         ['name' => 'Rg 1.19', 'left' => 74.63, 'top' => 79.41, 'width' => 6.48, 'height' => 4.91],
         ['name' => 'Rg 2.09', 'left' => 83.61, 'top' => 79.47, 'width' => 6.48, 'height' => 4.85],
-        ['name' => 'WC dekat Ruang Aula', 'left' => 18.24, 'top' => 83.25, 'width' => 6.48, 'height' => 1.07],
-        ['name' => 'WC dekat Ruang Aula', 'left' => 29.54, 'top' => 83.25, 'width' => 6.48, 'height' => 1.07],
+        ['name' => 'WC dekat Ruang Aula', 'left' => 18.24, 'top' => 83.0, 'width' => 6.48, 'height' => 1.6],
+        ['name' => 'WC dekat Ruang Aula', 'left' => 29.54, 'top' => 83.0, 'width' => 6.48, 'height' => 1.6],
         ['name' => 'Lab. RPL 4', 'left' => 18.24, 'top' => 84.51, 'width' => 6.48, 'height' => 3.59],
         ['name' => 'Lab. KKPI 2', 'left' => 83.61, 'top' => 84.51, 'width' => 6.48, 'height' => 3.59],
         ['name' => 'Showroom', 'left' => 8.98, 'top' => 89.55, 'width' => 4.44, 'height' => 4.85],
@@ -99,5 +100,34 @@ return [
         ['name' => 'Lab. B. Inggris 2', 'left' => 58.89, 'top' => 90.81, 'width' => 6.39, 'height' => 3.59],
         ['name' => 'Lab. B. Inggris 1', 'left' => 65.56, 'top' => 90.81, 'width' => 6.48, 'height' => 3.59],
         ['name' => 'Lab. RPL 1', 'left' => 72.31, 'top' => 90.81, 'width' => 6.48, 'height' => 3.59],
+
+        // Ruangan non-kelas (ruang guru, kantor, WKS, TU, dll). Guru juga ikut melapor,
+        // jadi semua ruangan di denah harus bisa diklik.
+        ['name' => 'R. Serbaguna/ Indoor', 'left' => 8.93, 'top' => 13.66, 'width' => 7.03, 'height' => 11.08],
+        ['name' => 'L4 Listrk', 'left' => 18.19, 'top' => 21.25, 'width' => 6.81, 'height' => 3.57],
+        ['name' => 'Ruang Guru Listrik', 'left' => 40.51, 'top' => 19.13, 'width' => 6.81, 'height' => 5.54],
+        ['name' => 'RPS TSM Lt. 1', 'left' => 74.44, 'top' => 22.92, 'width' => 6.81, 'height' => 13.82],
+        ['name' => 'Doorlop', 'left' => 51.9, 'top' => 35.45, 'width' => 9.04, 'height' => 2.43],
+        ['name' => 'R. Guru', 'left' => 60.94, 'top' => 37.88, 'width' => 9.04, 'height' => 1.29],
+        ['name' => 'R. TEFA', 'left' => 67.86, 'top' => 45.39, 'width' => 2.23, 'height' => 6.38],
+        ['name' => 'Ruang Guru NK', 'left' => 38.28, 'top' => 52.91, 'width' => 13.62, 'height' => 3.87],
+        ['name' => 'R. BP/BK', 'left' => 51.9, 'top' => 52.91, 'width' => 6.47, 'height' => 3.87],
+        ['name' => 'Ruang Waka 2', 'left' => 58.37, 'top' => 52.91, 'width' => 6.92, 'height' => 3.87],
+        ['name' => 'R. Guru PPLG', 'left' => 8.93, 'top' => 66.8, 'width' => 4.69, 'height' => 5.16],
+        ['name' => 'WKS WMM', 'left' => 8.93, 'top' => 73.02, 'width' => 4.69, 'height' => 2.5],
+        ['name' => 'R. Dapodik', 'left' => 8.93, 'top' => 75.6, 'width' => 4.69, 'height' => 2.58],
+        ['name' => 'R. Seni Rupa', 'left' => 8.93, 'top' => 78.26, 'width' => 4.69, 'height' => 2.43],
+        ['name' => 'WKS 4', 'left' => 8.93, 'top' => 81.83, 'width' => 4.69, 'height' => 2.81],
+        ['name' => 'LSP P1', 'left' => 8.93, 'top' => 84.79, 'width' => 4.69, 'height' => 2.35],
+        ['name' => 'R. Satpam', 'left' => 18.19, 'top' => 92.0, 'width' => 6.58, 'height' => 3.8],
+        ['name' => 'Ruang Aula', 'left' => 29.35, 'top' => 84.48, 'width' => 15.74, 'height' => 3.72],
+        ['name' => 'WKS SDM', 'left' => 45.09, 'top' => 84.48, 'width' => 6.92, 'height' => 1.29],
+        ['name' => 'WKS 3', 'left' => 45.09, 'top' => 85.78, 'width' => 6.92, 'height' => 2.43],
+        ['name' => 'R. Lobby', 'left' => 52.01, 'top' => 84.48, 'width' => 6.7, 'height' => 3.72],
+        ['name' => 'R. Meeting', 'left' => 58.71, 'top' => 84.48, 'width' => 6.58, 'height' => 1.14],
+        ['name' => 'Ruang KS', 'left' => 58.71, 'top' => 85.62, 'width' => 6.58, 'height' => 2.58],
+        ['name' => 'Ruang TU', 'left' => 65.29, 'top' => 84.48, 'width' => 9.15, 'height' => 3.72],
+        ['name' => 'Gudang', 'left' => 74.44, 'top' => 84.48, 'width' => 6.81, 'height' => 3.72],
+        ['name' => 'WKS 1', 'left' => 49.67, 'top' => 90.71, 'width' => 8.93, 'height' => 3.8],
     ],
 ];

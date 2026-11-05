@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // 'siswa' atau 'petugas'
+        'role', // 'siswa', 'guru' atau 'petugas'
     ];
 
     /**
@@ -46,9 +46,27 @@ class User extends Authenticatable
         ];
     }
 
+    /** Peran yang bisa dibuatkan akunnya oleh petugas (keduanya sama-sama pelapor). */
+    public const REPORTER_ROLES = ['siswa', 'guru'];
+
     public function isPetugas(): bool
     {
         return $this->role === 'petugas';
+    }
+
+    public function isGuru(): bool
+    {
+        return $this->role === 'guru';
+    }
+
+    /** Nama peran singkat: Petugas / Guru / Siswa. */
+    public function roleName(): string
+    {
+        return match ($this->role) {
+            'petugas' => 'Petugas',
+            'guru' => 'Guru',
+            default => 'Siswa',
+        };
     }
 
     public function reports()

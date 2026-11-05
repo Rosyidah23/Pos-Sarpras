@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Beranda Siswa | POS-SARPRAS')
+@section('title','Beranda | POS-SARPRAS')
 @section('content')
 <div class="shell">
     @include('partials.sidebar', ['active' => 'dashboard'])

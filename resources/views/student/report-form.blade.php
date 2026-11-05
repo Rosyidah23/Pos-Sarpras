@@ -9,7 +9,7 @@
             <div>
                 <p class="eyebrow">LAPORAN BARU</p>
                 <h1>Ceritakan masalahnya.</h1>
-                <p>Nggak perlu bahasa resmi, tulis seperti menjelaskan ke guru.</p>
+                <p>{{ auth()->user()->isGuru() ? 'Tulis singkat dan jelas, supaya petugas cepat menindaklanjuti.' : 'Nggak perlu bahasa resmi, tulis seperti menjelaskan ke guru.' }}</p>
             </div>
             <a class="btn soft" href="{{ route('dashboard') }}">← Kembali</a>
         </header>

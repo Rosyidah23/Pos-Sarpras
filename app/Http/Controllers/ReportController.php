@@ -22,6 +22,13 @@ class ReportController extends Controller
 
     public function map()
     {
+        // Semua ruangan di denah harus bisa diklik, jadi pastikan tiap nama di config/denah.php
+        // ada di tabel locations (yang belum ada dibuatkan otomatis).
+        $existing = Location::pluck('id', 'name');
+        collect(config('denah.hotspots'))->pluck('name')->unique()
+            ->reject(fn ($name) => $existing->has($name))
+            ->each(fn ($name) => Location::firstOrCreate(['name' => $name]));
+
         // Titik pada denah dicocokkan ke lokasi lewat nama ruangan.
         $locationIds = Location::pluck('id', 'name');
 

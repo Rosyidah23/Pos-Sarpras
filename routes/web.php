@@ -16,14 +16,16 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Area siswa
-Route::middleware('auth')->group(function () {
+// Area pelapor (siswa & guru). Petugas tidak boleh membuat laporan.
+Route::middleware(['auth', 'reporter'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'student'])->name('dashboard');
     Route::get('/laporan/buat', [ReportController::class, 'create'])->name('reports.create');
     Route::post('/laporan', [ReportController::class, 'store'])->name('reports.store');
     Route::get('/laporan/riwayat', [ReportController::class, 'history'])->name('reports.history');
-    Route::get('/denah', [ReportController::class, 'map'])->name('map');
 });
+
+// Denah boleh dilihat semua yang login; petugas hanya melihat (tanpa tombol buat laporan).
+Route::middleware('auth')->get('/denah', [ReportController::class, 'map'])->name('map');
 
 // Area petugas
 Route::middleware(['auth', 'petugas'])->prefix('petugas')->group(function () {
@@ -45,9 +47,10 @@ Route::middleware(['auth', 'petugas'])->prefix('petugas')->group(function () {
     Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('admin.locations.update');
     Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('admin.locations.destroy');
 
-    // Siswa tidak bisa daftar sendiri, akunnya dibuat petugas
+    // Siswa & guru tidak bisa daftar sendiri, akunnya dibuat petugas
     Route::get('/akun', [StudentAccountController::class, 'index'])->name('admin.accounts');
     Route::post('/akun', [StudentAccountController::class, 'store'])->name('admin.accounts.store');
+    Route::post('/akun/impor', [StudentAccountController::class, 'import'])->name('admin.accounts.import');
     Route::put('/akun/{user}/password', [StudentAccountController::class, 'resetPassword'])->name('admin.accounts.reset-password');
     Route::delete('/akun/{user}', [StudentAccountController::class, 'destroy'])->name('admin.accounts.destroy');
 });

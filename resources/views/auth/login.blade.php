@@ -26,7 +26,7 @@
                     <span><b>POS-SARPRAS</b><small>SMKN 5 Surakarta</small></span>
                 </div>
                 <h2>Masuk sebagai siapa?</h2>
-                <p>Pilih akunmu untuk lanjut.</p>
+                <p>Masuk dengan akun siswa, guru, atau petugas.</p>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     @if ($errors->any())

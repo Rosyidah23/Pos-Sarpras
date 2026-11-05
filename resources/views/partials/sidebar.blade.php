@@ -9,7 +9,7 @@
 <aside class="side" id="sidebar">
     <div class="side-role">
         <img src="{{ asset('images/logo-smkn5.png') }}?v={{ filemtime(public_path('images/logo-smkn5.png')) }}" alt="Logo SMKN 5 Surakarta" class="side-logo">
-        <span class="side-role-badge">{{ $isPetugas ? 'Petugas Sarpras' : 'Siswa / Pelapor' }}</span>
+        <span class="side-role-badge">{{ $isPetugas ? 'Petugas Sarpras' : $navUser->roleName().' / Pelapor' }}</span>
     </div>
 
     <div class="nav-group">
@@ -32,7 +32,7 @@
             <div class="label">Master data</div>
             <a class="nav {{ $active === 'admin.categories' ? 'active' : '' }}" href="{{ route('admin.categories') }}">☰ &nbsp; Kategori kerusakan</a>
             <a class="nav {{ $active === 'admin.locations' ? 'active' : '' }}" href="{{ route('admin.locations') }}">📍 &nbsp; Lokasi / ruangan</a>
-            <a class="nav {{ $active === 'admin.accounts' ? 'active' : '' }}" href="{{ route('admin.accounts') }}">👤 &nbsp; Akun siswa</a>
+            <a class="nav {{ $active === 'admin.accounts' ? 'active' : '' }}" href="{{ route('admin.accounts') }}">👤 &nbsp; Akun siswa &amp; guru</a>
         </div>
     @endif
 
@@ -43,7 +43,7 @@
             <div class="avatar">{{ $initials }}</div>
             <div>
                 <b>{{ $navUser->name }}</b>
-                <small>{{ $isPetugas ? 'Petugas Sarpras' : 'Siswa' }}</small>
+                <small>{{ $isPetugas ? 'Petugas Sarpras' : $navUser->roleName() }}</small>
             </div>
         </div>
     @endif

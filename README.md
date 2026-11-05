@@ -1,6 +1,6 @@
 # POS-SARPRAS — SMKN 5 Surakarta
 
-Sistem pelaporan sarana & prasarana berbasis Laravel 11. Siswa bisa melapor
+Sistem pelaporan sarana & prasarana berbasis Laravel 11. Siswa dan guru bisa melapor
 kerusakan fasilitas, petugas bisa memverifikasi, mengubah status, mengelola
 data master, dan mengekspor laporan ke CSV.
 
@@ -21,21 +21,35 @@ migrate:fresh --seed` — **ini akan menghapus semua data lama**.
 
 Buka `http://localhost:8000` di browser.
 
+### Update dari versi sebelumnya (tanpa menghapus data)
+
+Versi ini menambah semua ruangan denah ke daftar lokasi. Cukup jalankan:
+
+```bash
+php artisan migrate
+```
+
+(Alternatif: `php artisan db:seed --class=LocationSeeder` — aman diulang, tidak membuat duplikat.)
+
 ## Akun demo (hasil dari `php artisan migrate --seed`)
 
 | Peran   | Email                                  | Password |
 |---------|------------------------------------------|----------|
 | Siswa   | `siswa@smkn5surakarta.sch.id` (+ 10 akun siswa lain, lihat `DatabaseSeeder.php`) | `password` |
+| Guru    | `guru@smkn5surakarta.sch.id`             | `password` |
 | Petugas | `petugas@smkn5surakarta.sch.id`          | `password` |
 
 ## Fitur
 
 - **Siswa**: login, buat laporan (kategori, lokasi, deskripsi, foto bukti —
   semua wajib diisi), lihat riwayat & status laporan sendiri, lihat denah.
-- **Petugas**: ringkasan dashboard, verifikasi laporan (ubah status
+- **Guru**: sama seperti siswa (ikut melapor), akunnya dibuat petugas.
+- **Petugas**: ringkasan dashboard, kelola akun siswa & guru (buat akun,
+  pilih peran, ganti password, hapus, plus pencarian nama/email & filter peran;
+  bisa juga impor ratusan akun sekaligus dengan upload file Excel .xlsx / Word .docx), verifikasi laporan (ubah status
   Menunggu/Diproses/Selesai/Ditolak + catatan tindak lanjut), kelola master
   data kategori kerusakan, kelola master data lokasi/ruangan (sesuai denah
-  asli sekolah, bisa tambah/ubah/hapus), export laporan ke CSV.
+  asli sekolah, bisa tambah/ubah/hapus; semua ruangan di denah bisa diklik), export laporan ke CSV.
 
 ## Struktur
 

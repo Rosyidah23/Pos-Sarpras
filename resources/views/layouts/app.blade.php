@@ -21,7 +21,7 @@
         @endguest
         <b>POS-SARPRAS <span class="top-sep">·</span> SMKN 5 Surakarta</b>
         @auth
-            <span class="top-role">{{ auth()->user()->isPetugas() ? 'Petugas' : 'Siswa' }}</span>
+            <span class="top-role">{{ auth()->user()->roleName() }}</span>
             <a href="{{ route('logout') }}" class="top-logout">Keluar</a>
         @else
             <a href="{{ route('login') }}">Masuk</a>

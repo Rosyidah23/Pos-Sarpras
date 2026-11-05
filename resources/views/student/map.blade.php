@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title','Denah Asli | POS-SARPRAS')
 @section('content')
+@php $canReport = ! auth()->user()->isPetugas(); @endphp
 <div class="shell">
     @include('partials.sidebar', ['active' => 'map'])
 
@@ -9,9 +10,13 @@
             <div>
                 <p class="eyebrow">DENAH ASLI SMKN 5 SURAKARTA</p>
                 <h1>Cari tempatnya 📍</h1>
-                <p>Klik ruangan pada denah asli untuk memilih lokasi masalah.</p>
+                <p>{{ $canReport ? 'Klik ruangan mana pun pada denah asli untuk memilih lokasi masalah.' : 'Klik ruangan pada denah untuk melihat namanya. Laporan dibuat oleh siswa dan guru.' }}</p>
             </div>
-            <a class="btn soft" href="{{ route('reports.create') }}">Buat laporan →</a>
+            @if ($canReport)
+                <a class="btn soft" href="{{ route('reports.create') }}">Buat laporan →</a>
+            @else
+                <a class="btn soft" href="{{ route('admin.locations') }}">← Daftar lokasi</a>
+            @endif
         </header>
 
         <div class="map-layout">
@@ -31,10 +36,12 @@
                 </div>
             </div>
             <aside class="map-info">
-                <small>LOKASI LAPORAN</small>
+                <small>{{ $canReport ? 'LOKASI LAPORAN' : 'RUANGAN' }}</small>
                 <h2 id="roomTitle">Belum dipilih</h2>
-                <p id="roomText">Klik ruangan pada denah asli, lalu lanjutkan ke form laporan.</p>
-                <a class="btn" id="continueBtn" href="{{ route('reports.create') }}">Lanjut buat laporan ↗</a>
+                <p id="roomText">{{ $canReport ? 'Klik ruangan pada denah asli, lalu lanjutkan ke form laporan.' : 'Klik salah satu ruangan pada denah.' }}</p>
+                @if ($canReport)
+                    <a class="btn" id="continueBtn" href="{{ route('reports.create') }}">Lanjut buat laporan ↗</a>
+                @endif
             </aside>
         </div>
     </main>
