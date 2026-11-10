@@ -56,6 +56,25 @@ Dump SQL sudah berisi struktur tabel dan data awal; proyek ini tidak
 menyertakan migration/seeders, jadi jangan menjalankan `php artisan migrate`
 atau `db:seed` saat menyiapkan database.
 
+### Deploy di EthioDeploy
+
+1. Tambahkan add-on **MySQL** pada proyek EthioDeploy, lalu impor
+   `pos_sarpras.sql` melalui tab **Database → Backups → Import a SQL file**.
+   Pilih opsi untuk memulai dari database kosong agar tabel dari dump dapat
+   dibuat.
+2. Pada pengaturan environment proyek, set `DB_CONNECTION=mysql`,
+   `APP_ENV=production`, `APP_DEBUG=false`, dan `APP_URL` ke URL HTTPS proyek.
+   EthioDeploy membuat `APP_KEY` otomatis saat deploy pertama. Add-on MySQL
+   menyediakan `DATABASE_URL`; konfigurasi aplikasi sudah menggunakan nilai
+   itu sebagai fallback `DB_URL`.
+3. Deploy ulang setelah add-on selesai dibuat dan variabel environment siap.
+   EthioDeploy menyiapkan `storage:link`, cache Laravel, PHP-FPM, dan nginx
+   secara otomatis. Health check Laravel tersedia di `/up`.
+
+EthioDeploy menggunakan filesystem sementara. Foto laporan yang diunggah dapat
+hilang saat deploy baru; gunakan object storage S3-compatible jika foto harus
+tetap tersimpan setelah deploy.
+
 ## Akun yang tersedia di dump SQL
 
 Gunakan akun yang memang tersedia pada dump SQL yang diimpor. Jika password
