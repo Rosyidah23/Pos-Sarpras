@@ -4,40 +4,63 @@ Sistem pelaporan sarana & prasarana berbasis Laravel 11. Siswa dan guru bisa mel
 kerusakan fasilitas, petugas bisa memverifikasi, mengubah status, mengelola
 data master, dan mengekspor laporan ke CSV.
 
-## Cara menjalankan (di komputer yang sudah ada PHP 8.2+ dan Composer)
+## Menjalankan lokal (PHP 8.2+, Composer, dan MySQL/MariaDB)
+
+Database aplikasi menggunakan dump `pos_sarpras.sql`. Buat database
+`pos_sarpras` dengan charset `utf8mb4`, lalu import `pos_sarpras.sql` melalui
+phpMyAdmin atau MySQL. Jangan jalankan `migrate:fresh` pada database yang berisi
+data penting karena perintah tersebut menghapus semua tabel dan data.
 
 ```bash
 composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
 php artisan storage:link
+php artisan optimize:clear
 php artisan serve
 ```
 
-Kalau sebelumnya sudah pernah migrate dan mau reset total ke data terbaru
-(lokasi sesuai denah, banyak akun siswa, dst), pakai `php artisan
-migrate:fresh --seed` — **ini akan menghapus semua data lama**.
+Jika `.env` belum ada, buat salinannya dari `.env.example` (di PowerShell:
+`Copy-Item .env.example .env`). Jangan timpa `.env` yang sudah ada. Jalankan
+`php artisan key:generate` hanya sekali jika `APP_KEY` masih kosong.
+Atur `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di
+`.env` agar cocok dengan MySQL lokal. Pada XAMPP standar, biasanya host
+`127.0.0.1`, port `3306`, user `root`, dan password kosong. Jika `.env` sudah
+ada, pertahankan `APP_KEY` yang ada dan jangan menyalinnya ulang.
 
 Buka `http://localhost:8000` di browser.
 
-### Update dari versi sebelumnya (tanpa menghapus data)
+### Hosting
 
-Versi ini menambah semua ruangan denah ke daftar lokasi. Cukup jalankan:
+1. Arahkan document root/domain ke folder `public` aplikasi, bukan folder root
+   proyek. Pastikan hosting memakai PHP 8.2+ beserta ekstensi PHP yang
+   dibutuhkan Laravel 11.
+2. Buat database MySQL/MariaDB dan import `pos_sarpras.sql`. Isi variabel
+   `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di
+   `.env` menggunakan kredensial dari hosting.
+3. Isi `.env` produksi dengan `APP_ENV=production`, `APP_DEBUG=false`,
+   `APP_URL=https://domain-anda`, dan `APP_KEY` yang dibuat satu kali dengan
+   `php artisan key:generate`. Jangan bagikan atau mengganti `APP_KEY` setelah
+   aplikasi mulai dipakai.
+4. Pasang dependency produksi dan siapkan cache/link storage:
 
 ```bash
-php artisan migrate
+composer install --no-dev --optimize-autoloader
+php artisan optimize:clear
+php artisan storage:link
+php artisan config:cache
 ```
 
-(Alternatif: `php artisan db:seed --class=LocationSeeder` — aman diulang, tidak membuat duplikat.)
+5. Beri hak tulis yang diperlukan kepada user web server untuk folder
+   `storage` dan `bootstrap/cache`. Jangan menggunakan permission `777`.
 
-## Akun demo (hasil dari `php artisan migrate --seed`)
+Dump SQL sudah berisi struktur tabel dan data awal; proyek ini tidak
+menyertakan migration/seeders, jadi jangan menjalankan `php artisan migrate`
+atau `db:seed` saat menyiapkan database.
 
-| Peran   | Email                                  | Password |
-|---------|------------------------------------------|----------|
-| Siswa   | `siswa@smkn5surakarta.sch.id` (+ 10 akun siswa lain, lihat `DatabaseSeeder.php`) | `password` |
-| Guru    | `guru@smkn5surakarta.sch.id`             | `password` |
-| Petugas | `petugas@smkn5surakarta.sch.id`          | `password` |
+## Akun yang tersedia di dump SQL
+
+Gunakan akun yang memang tersedia pada dump SQL yang diimpor. Jika password
+akun tidak diketahui, atur ulang melalui database atau buat akun baru dari
+fitur petugas setelah login; jangan mengasumsikan password demo.
 
 ## Fitur
 
@@ -60,21 +83,8 @@ php artisan migrate
 - `app/Http/Controllers/CategoryController.php`, `LocationController.php` — CRUD master data (petugas).
 - `app/Http/Controllers/DashboardController.php` — dashboard siswa & petugas.
 - `app/Models` — `User`, `Category`, `Location`, `Report`.
-- `database/migrations` — tabel `users`, `categories`, `locations`, `reports`
-  (dengan kolom `handled_by` & `follow_up_note` untuk fitur verifikasi).
-- `database/seeders/DatabaseSeeder.php` — seed 11 akun siswa + 1 petugas,
-  8 kategori, dan ±90 lokasi/ruangan sesuai Denah Ruang SMK Negeri 5
-  Surakarta TA 2025/2026.
+- `pos_sarpras.sql` — struktur dan data database MySQL/MariaDB.
 - `resources/views` — semua tampilan Blade, satu sidebar partial dipakai
   bersama di semua halaman dashboard.
 - `public/css/pos-sarpras.css` — styling (font Poppins, responsif termasuk
   breakpoint khusus ukuran laptop).
-
-## Catatan
-
-Proyek ini dirakit ulang secara manual (tanpa menjalankan `composer
-create-project`) karena lingkungan penyusunnya tidak punya PHP/Composer
-terpasang untuk mengujinya secara langsung. Strukturnya mengikuti skeleton
-standar Laravel 11 — kalau setelah `composer install` / `migrate` masih ada
-error atau tampilan yang kurang pas, kirim screenshot/pesan errornya dan
-akan langsung diperbaiki.
