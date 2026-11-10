@@ -35,7 +35,8 @@ Buka `http://localhost:8000` di browser.
    dibutuhkan Laravel 11.
 2. Buat database MySQL/MariaDB dan import `pos_sarpras.sql`. Isi variabel
    `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` di
-   `.env` menggunakan kredensial dari hosting.
+   `.env` menggunakan kredensial dari hosting. Gunakan `SESSION_DRIVER=file`
+   kecuali tabel `sessions` sudah tersedia dan memang ingin dipakai.
 3. Isi `.env` produksi dengan `APP_ENV=production`, `APP_DEBUG=false`,
    `APP_URL=https://domain-anda`, dan `APP_KEY` yang dibuat satu kali dengan
    `php artisan key:generate`. Jangan bagikan atau mengganti `APP_KEY` setelah
@@ -63,13 +64,14 @@ atau `db:seed` saat menyiapkan database.
    Pilih opsi untuk memulai dari database kosong agar tabel dari dump dapat
    dibuat.
 2. Pada pengaturan environment proyek, set `DB_CONNECTION=mysql`,
-   `APP_ENV=production`, `APP_DEBUG=false`, dan `APP_URL` ke URL HTTPS proyek.
-   EthioDeploy membuat `APP_KEY` otomatis saat deploy pertama. Add-on MySQL
-   menyediakan `DATABASE_URL`; konfigurasi aplikasi sudah menggunakan nilai
-   itu sebagai fallback `DB_URL`.
+   `SESSION_DRIVER=file`, `APP_ENV=production`, `APP_DEBUG=false`, dan
+   `APP_URL` ke URL HTTPS proyek. EthioDeploy membuat `APP_KEY` otomatis saat
+   deploy pertama. Add-on MySQL menyediakan `DATABASE_URL`; konfigurasi
+   aplikasi sudah menggunakan nilai itu sebagai fallback `DB_URL`.
 3. Deploy ulang setelah add-on selesai dibuat dan variabel environment siap.
    EthioDeploy menyiapkan `storage:link`, cache Laravel, PHP-FPM, dan nginx
-   secara otomatis. Health check Laravel tersedia di `/up`.
+   secara otomatis. Atur **Health Check Path** proyek ke `/up` (bukan `/`):
+   `/` mengalihkan ke halaman login, yang membutuhkan koneksi database.
 
 EthioDeploy menggunakan filesystem sementara. Foto laporan yang diunggah dapat
 hilang saat deploy baru; gunakan object storage S3-compatible jika foto harus
